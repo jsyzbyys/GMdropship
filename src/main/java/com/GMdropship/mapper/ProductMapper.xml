@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+
+<mapper namespace="com.GMdropship.mapper.ProductMapper">  
+	
+	<resultMap type="Product" id="getMap">
+		<id     property="id" column="id" />
+		<result property="price" column="price"/>
+		<result property="title" column="title"/>
+		<result property="type" column="type"/>
+		<result property="sku" column="sku"/>
+		<result property="picture" column="picture"/>
+		<result property="stock" column="stock"/>
+			<association property="mvo_id" column="mvo_id" javaType="Company">
+					<id 	property="mvoid" 	  column="mvoid"/>
+					<result property="companyname1" 	  column="companyname1"/>	
+			</association>
+	</resultMap>
+	
+	
+	<select id="list" resultType="Product">
+		select * from product where state = "A"
+	</select>
+	
+	<select id="selCount" resultType="Integer">
+		
+		select count(*) from product where state = "A"
+	</select>
+	
+	
+	<select id="detail" parameterType="Product" resultMap="getMap">
+		select p.id,p.title,p.price,p.picture,p.sku,p.stock,b.companyname1,b.mvoid  from product p 
+		inner join company b on p.mvo_id = b.mvoid
+		where p.state ="A"
+		and p.id = #{id}
+	</select>
+	
+	
+	<update id="flash" parameterType="Integer">
+		update product set stock = stock - #{num}
+	
+	</update>
+	
+			      	
+</mapper>

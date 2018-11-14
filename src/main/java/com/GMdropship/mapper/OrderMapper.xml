@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+
+<mapper namespace="com.GMdropship.mapper.OrderMapper">  
+
+	<resultMap type="Order" id="getMap">
+		<id     property="id" column="id" />
+		<result property="bvo_id" column="bvo_id"/>
+		<result property="title" column="title"/>
+		<result property="price" column="price"/>
+		<result property="amount" column="amount"/>
+		<result property="sku" column="sku"/>
+		<result property="status" column="status"/>
+			<association property="mvo_id" column="mvo_id" javaType="Company">
+					<id 	property="mvoid" 	  column="bid"/>
+					<result property="name" 	  column="companyname1"/>	
+			</association>
+	</resultMap>
+	
+	<insert id="addorder" parameterType="Order">
+		insert into orderlist(mvo_id,bvo_id,title,price,amount,sku,add_date)
+		values(#{brand},#{bvo_id},#{title},#{price},#{amount},#{sku},now())
+	</insert>
+	
+			     
+	<update id="updateorder" parameterType="Order" >
+			
+			update orderlist set amount = amount + #{amount} where  id = #{id}
+	
+	</update>   
+	
+	<select id="check" parameterType="Order" resultMap="getMap">
+		
+		select * from orderlist where mvo_id=#{brand} and bvo_id = #{bvo_id}
+		and sku = #{sku}  and status = 0
+	</select>
+	
+	<select id="queryByBvoid" parameterType="Order" resultType="Order">
+		select id,title,price,amount,sku,status from orderlist
+		
+		<where>
+				<if test=" title!=null and title!='' ">
+					and title like concat('%',#{title},'%')
+				</if>	
+				<if test=" 1==1 ">
+					and  bvo_id=#{bvo_id}
+				</if>		
+		</where>
+	</select>
+	
+	<select id="queryById" parameterType="Integer" resultType="Order">
+		select id,title,price,amount,sku,status from orderlist
+		where id=#{id}
+	</select>
+		
+</mapper>

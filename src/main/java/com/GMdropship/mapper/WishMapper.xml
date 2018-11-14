@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+
+<mapper namespace="com.GMdropship.mapper.WishMapper">  
+	
+	<resultMap type="Wish" id="getMap">
+			<id     property="wid"           column="wid" />			
+			<result property="bvo_id"    		column="bvo_id"/>
+			<result property="brand_id"    		column="brand_id"/>
+			<association property="pro" column="sku" javaType="Product">
+				<id     property="id" 		column="id" />
+				<result property="title" column="title" />
+				<result property="price" column="price" />
+				<result property="picture" column="picture" />	
+				<result property="sku"		column="sku"	/>
+			</association>
+			
+	</resultMap>
+	
+	<select id="check" parameterType="Wish" resultType="Wish">
+			select * from wish where sku=#{sku}	and bvo_id=#{bvo_id} and brand_id=#{brand_id}
+	</select>
+	
+	
+	<insert id="addwish" parameterType="Wish">
+	
+		insert into wish(sku,bvo_id,brand_id)
+		values(#{sku},#{bvo_id},#{brand_id})
+	</insert>
+	
+	<select id="queryByBid" parameterType="Integer" resultMap="getMap">
+		select w.wid,w.sku,w.bvo_id,w.brand_id,p.id,p.title,p.price,p.picture,p.sku from wish w
+		inner join product p on p.sku=w.sku
+		where w.bvo_id = #{id}
+	</select>
+	
+	<delete id="delById" parameterType="Integer">
+		delete from wish where wid=#{id}
+	</delete>
+	
+         	
+</mapper>

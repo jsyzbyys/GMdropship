@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+
+<mapper namespace="com.GMdropship.mapper.BvoMapper">  
+	
+	
+	<select id="queryByUsername" parameterType="String" resultType="bvo_info">
+			select * from bvo_info where username=#{username}	
+	</select>
+	
+	
+	<insert id="addbvo" parameterType="bvo" useGeneratedKeys="true" keyProperty="bvo_id">
+	
+		insert into bvo_info(bvo_id,username,realname,email,phone)
+		values(#{bvo_id},#{username},#{realname},#{email},#{phone})
+	</insert>
+	
+	<update id="updatebvo" parameterType="bvo">
+		update bvo_info set realname=#{realname},email=#{email},phone=#{phone} 
+		where username=#{username}
+	
+	</update>
+	
+	<select id="check" parameterType="String" resultType="String">
+		select buyMangerId from bvo_info 
+		where username=#{username}
+	</select>
+	
+	<update id="setBuyID" parameterType="Integer">
+		update bvo_info set buyMangerId = UUID()
+		where bvo_id = #{id}
+	
+	</update>
+	
+	
+	<select id="queryByName" parameterType="Bvo" resultType="Bvo">
+		select bvoid,bvoname,bvomail,bvopwd,bvosex,bvoage,bvohavewallet from bvo where bvoname=#{bvoname}
+	</select>
+	
+	<select id="queryName" parameterType="Bvo" resultType="Bvo">
+		select bvoid,bvoname,bvomail,bvopwd,bvosex,bvoage,bvohavewallet from bvo where bvoname=#{bvoname}
+	</select>
+	
+	
+	 <insert id="add" parameterType="Bvo">
+    	insert into bvo (bvoname,bvomail,bvopwd,bvosex,bvoage) 
+    	values (#{bvoname},#{bvomail},#{bvopwd},#{bvosex},#{bvoage})
+    </insert> 
+         	
+</mapper>
