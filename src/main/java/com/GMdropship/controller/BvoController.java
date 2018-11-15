@@ -1,24 +1,22 @@
 package com.GMdropship.controller;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import com.GMdropship.model.Bvo;
+import com.GMdropship.model.Bvo_info;
+import com.GMdropship.service.BvoLoginService;
+import com.GMdropship.service.BvoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.GMdropship.model.Bvo;
-import com.GMdropship.model.Bvo_info;
-import com.GMdropship.model.Product;
-import com.GMdropship.service.BvoLoginService;
-import com.GMdropship.service.BvoService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 
 @Controller
 @RequestMapping(value="/bvo")
 public class BvoController {
+
 	
 	@Resource
 	private BvoService bvoservice;
